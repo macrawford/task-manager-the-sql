@@ -10,8 +10,18 @@ function App() {
     const handleSubmit = (e) => {
         e.preventDefault();
         var sliced = todos.slice();
-        sliced.push(input);
+        sliced.push({text: input, completed: false});
         setTodos(sliced);
+    }
+    const deleteTodo = (index) => {
+        var sliced = todos.slice();
+        sliced.splice(index, 1);
+        setTodos(sliced);
+    }
+    const toggleCompleted = (index) => {
+        var sliced = todos.slice();
+        sliced[index].completed = !sliced[index].completed
+        setTodos(sliced)
     }
     return (
         <div>
@@ -26,13 +36,11 @@ function App() {
                 {todos.map((todo, index) => {
                     return(
                         <div key={index}>
-                            <div>
-                                {todo}
-                            </div>
-                            <button>
+                            {todo.completed ? <div>completed</div> : <div>{todo.text}</div>}
+                            <button onClick={() => toggleCompleted(index)}>
                                 Mark completed
                             </button>
-                            <button>
+                            <button onClick={() => deleteTodo(index)}>
                                 Delete
                             </button>
                         </div>
