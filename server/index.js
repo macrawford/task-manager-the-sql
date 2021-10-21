@@ -7,23 +7,13 @@ const PORT = 3000 || process.env.PORT;
 
 app.use(express.static('public'))
 
-app.get("/api/get", (req, res) => {
-    db.query("SELECT * FROM todos", (err, results) => {
-        if (err) {
-            console.log('error: ', err)
-        }
-        res.send(results)
-    })
-})
-
-app.post("api/create", (req, res) => {
-    const text = req.body.text;
-    const completed = req.body.completed;
-    db.query("INSERT INTO posts (text, completed) VALUES (?, ?)", [text, completed], (err, results) => {
-        if (err) {
-            console.log('error: ', err)
-        }
-        console.log(results)
+app.get('api/data/', (req, res) => {
+    console.log('running the database call')
+    db.getTodos()
+    .then(rows => res.send(rows))
+    .catch(err => {
+        console.log(err);
+        res.sendStatus(500);
     })
 })
 

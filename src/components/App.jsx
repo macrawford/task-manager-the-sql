@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 function App() {
     const [input, setInput] = React.useState('');
     const [todos, setTodos] = React.useState([]);
+    useEffect(() => {
+        fetchTodos();
+    }, []);
     const handleChange = (e) => {
         setInput(e.target.value);
         console.log('input: ', input)
@@ -23,6 +27,17 @@ function App() {
         sliced[index].completed = !sliced[index].completed
         setTodos(sliced)
     }
+    const fetchTodos = () => {
+        console.log('running fetchTodos function from App.jsx!!!')
+        axios.get('api/data/')
+            .then(({data}) => {
+                console.log('data: ', data)
+            })
+            .catch((error) => {
+                console.log('error: ', error)
+            });
+    }
+
     return (
         <div>
             <div>

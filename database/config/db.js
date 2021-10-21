@@ -1,9 +1,24 @@
-const mysql = require('mysql');
-const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "todos"
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  user: 'matthewcrawford',
+  database: 'todoapp',
+  password: ''
 })
 
-module.exports = db;
+pool.connect();
+
+const getTodos = () => {
+    var query = `select * from sampledata`;
+    return pool.query(query)
+    .then(({rows}) => {
+        return rows
+    })
+    .catch((err) => {
+        throw err
+    })
+}
+
+module.exports = {
+    getTodos
+}
