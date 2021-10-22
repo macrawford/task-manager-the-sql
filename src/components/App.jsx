@@ -29,7 +29,7 @@ function App() {
     }
     const fetchTodos = () => {
         console.log('running fetchTodos function from App.jsx!!!')
-        axios.get('api/data/')
+        axios.get('/api/data')
             .then(({data}) => {
                 console.log('data: ', data)
             })
