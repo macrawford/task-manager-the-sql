@@ -12,10 +12,15 @@ function App() {
         console.log('input: ', input)
     }
     const handleSubmit = (e) => {
+        // e.preventDefault();
+        // var sliced = todos.slice();
+        // sliced.push({text: input, completed: false});
+        // setTodos(sliced);
         e.preventDefault();
-        var sliced = todos.slice();
-        sliced.push({text: input, completed: false});
-        setTodos(sliced);
+        var newTodo = {text: input, completed: false};
+        addTodo(newTodo);
+
+
     }
     const deleteTodo = (index) => {
         var sliced = todos.slice();
@@ -31,13 +36,26 @@ function App() {
         console.log('running fetchTodos function from App.jsx!!!')
         axios.get('/api/data')
             .then(({data}) => {
-                console.log('data: ', data)
+                console.log('data: ', data);
+                setTodos(data);
             })
             .catch((error) => {
-                console.log('error: ', error)
+                console.log('error: ', error);
             });
     }
-
+    const addTodo = (todo) => {
+        console.log('running addTodo function from App.jsx!')
+        console.log('todo in App.jsx: ', todo.text)
+        var text = todo.text;
+        var completed = todo.completed;
+        axios.post('/api/data/post', todo)
+            .then((response) => {
+                fetchTodos();
+            })
+            .catch((err) => {
+                console.log('error in App.jsx post request: ', err);
+            })
+    }
     return (
         <div>
             <div>
