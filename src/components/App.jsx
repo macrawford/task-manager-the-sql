@@ -59,9 +59,6 @@ function App() {
             .catch((err) => {
                 console.log('error in App.jsx patch request')
             })
-        // var sliced = todos.slice();
-        // sliced[index].completed = !sliced[index].completed
-        // setTodos(sliced)
     }
     return (
         <div>
