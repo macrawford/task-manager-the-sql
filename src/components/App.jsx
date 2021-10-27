@@ -9,28 +9,11 @@ function App() {
     }, []);
     const handleChange = (e) => {
         setInput(e.target.value);
-        console.log('input: ', input)
     }
     const handleSubmit = (e) => {
-        // e.preventDefault();
-        // var sliced = todos.slice();
-        // sliced.push({text: input, completed: false});
-        // setTodos(sliced);
         e.preventDefault();
         var newTodo = {text: input, completed: false};
         addTodo(newTodo);
-
-
-    }
-    const deleteTodo = (index) => {
-        var sliced = todos.slice();
-        sliced.splice(index, 1);
-        setTodos(sliced);
-    }
-    const toggleCompleted = (index) => {
-        var sliced = todos.slice();
-        sliced[index].completed = !sliced[index].completed
-        setTodos(sliced)
     }
     const fetchTodos = () => {
         console.log('running fetchTodos function from App.jsx!!!')
@@ -48,13 +31,39 @@ function App() {
         console.log('todo in App.jsx: ', todo.text)
         var text = todo.text;
         var completed = todo.completed;
-        axios.post('/api/data/post', todo)
+        axios.post('/api/data', todo)
             .then((response) => {
+                console.log('response in App.jsx addTodo')
                 fetchTodos();
             })
             .catch((err) => {
                 console.log('error in App.jsx post request: ', err);
             })
+    }
+    const deleteTodo = (id) => {
+        // var sliced = todos.slice();
+        // sliced.splice(index, 1);
+        // setTodos(sliced);
+        axios.delete('/api/data/' + id)
+            .then((response) => {
+                fetchTodos();
+            })
+            .catch((err) => {
+                console.log('error in App.jsx delete request: ', err)
+            })
+    }
+    const toggleCompleted = (todo) => {
+        console.log('todo: ', todo)
+        axios.patch('/api/data/' + todo.id, todo)
+            .then((response) => {
+                fetchTodos();
+            })
+            .catch((err) => {
+                console.log('error in App.jsx patch request')
+            })
+        // var sliced = todos.slice();
+        // sliced[index].completed = !sliced[index].completed
+        // setTodos(sliced)
     }
     return (
         <div>
@@ -70,10 +79,10 @@ function App() {
                     return(
                         <div key={index}>
                             {todo.completed ? <div>completed</div> : <div>{todo.text}</div>}
-                            <button onClick={() => toggleCompleted(index)}>
+                            <button onClick={() => toggleCompleted(todo)}>
                                 Mark completed
                             </button>
-                            <button onClick={() => deleteTodo(index)}>
+                            <button onClick={() => deleteTodo(todo.id)}>
                                 Delete
                             </button>
                         </div>

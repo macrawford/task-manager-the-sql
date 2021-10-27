@@ -32,7 +32,31 @@ const addTodo = (todo) => {
     })
 }
 
+const deleteTodo = (id) => {
+    var query = `delete from todotable where id=${id}`;
+    return pool.query(query)
+    .then(() => {
+        console.log('successful delete request');
+    })
+    .catch((err) => {
+        throw err;
+    })
+}
+
+const toggleCompleted = (id, newCompleted) => {
+    var query = `update todotable set completed = ${newCompleted} where id=${id}`
+    return pool.query(query)
+    .then(() => {
+        console.log('successful patch request')
+    })
+    .catch(err => {
+        throw err;
+    })
+}
+
 module.exports = {
     getTodos,
-    addTodo
+    addTodo,
+    deleteTodo,
+    toggleCompleted
 }
