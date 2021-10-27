@@ -60,9 +60,6 @@ app.patch('/api/data/:id', (req, res) => {
         res.sendStatus(404)
     })
 })
-app.get('/', (req, res) => {
-    res.send('TEST')
-})
 
 app.listen(PORT, () => {
     console.log(`App running on localhost:${PORT}`)

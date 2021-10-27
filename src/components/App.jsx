@@ -29,8 +29,6 @@ function App() {
     const addTodo = (todo) => {
         console.log('running addTodo function from App.jsx!')
         console.log('todo in App.jsx: ', todo.text)
-        var text = todo.text;
-        var completed = todo.completed;
         axios.post('/api/data', todo)
             .then((response) => {
                 console.log('response in App.jsx addTodo')
@@ -75,9 +73,9 @@ function App() {
                 <button onClick={handleSubmit}>Submit</button>
             </form>
             <div>
-                {todos.map((todo, index) => {
+                {todos.map((todo) => {
                     return(
-                        <div key={index}>
+                        <div key={todo.id}>
                             {todo.completed ? <div>completed</div> : <div>{todo.text}</div>}
                             <button onClick={() => toggleCompleted(todo)}>
                                 Mark completed
